@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+    <title>Apply for Reimbursement</title>
+    <style>
+		.navbar-nav > li {
+		  float: left;
+		  position: relative;
+		}
+		.active {
+		  border-bottom: 3px solid navyblue;
+
+		}
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color: #e3f2fd;">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="index.html"><img src="logo.png" width="120" height="60" alt=""></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="index.html">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="profile">Profile</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="try_login">Login</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="logout" >Logout</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<form method = "post" action = "apply-for-reimbursement">
+
+  <div class="form-group">
+    <label for="emp_id">ID</label>
+    <input type="number" class="form-control" id="emp_id" aria-describedby="idHelp" placeholder="Enter your ID" name="emp_id">
+  </div>
+  <hr class="my-4">
+  
+<div class="input-group mb-3">
+	<span class="input-group-text">Reimbursement Amount</span>
+	<span class="input-group-text">$</span>
+	<input type="number" id = "amount" class="form-control" aria-label="Amount (to the nearest dollar)" name="amount">
+	<span class="input-group-text">.00</span>
+</div>
+  <hr class="my-4">
+  
+<select id="type" name="type" class="form-select" aria-label="Default select example">
+  <option selected>-Select Reimbursement Type-</option>
+  <option value="lodging">Lodging</option>
+  <option value="travel">Travel</option>
+  <option value="food">Food</option>
+  <option value="other">Other (Please elaborate below)</option>
+</select>
+<hr class="my-4">
+
+<div class="input-group">
+  <span class="input-group-text">(Optional) Description </span>
+  <textarea class="form-control" aria-label="With textarea" name="description" placeholder="120 Characters or Less"></textarea>
+</div>
+
+<hr class="my-4">
+
+<div class="input-group">
+<span class="input-group-text">Date </span>
+<input type="date" id="start" name="date" value="1999-01-01" min="1999-01-01" max="2100-12-31">
+</div>
+
+<hr class="my-4">
+
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+</body>
+</html>
