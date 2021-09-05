@@ -11,6 +11,11 @@ import java.util.List;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 
+import org.apache.log4j.ConsoleAppender;
+import org.apache.log4j.Level;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PatternLayout;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -30,6 +35,8 @@ import jakarta.servlet.http.HttpServletResponse;
 
 public class ApplyForReimbursementServlet extends HttpServlet{
 	
+	private static final Logger logger = LogManager.getLogger(ApproveServlet.class);
+
 	
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		response.setContentType("text/html");
@@ -46,6 +53,15 @@ public class ApplyForReimbursementServlet extends HttpServlet{
         int id = Integer.parseInt(id_string);
         
         int amount = Integer.parseInt(amount_string);
+        
+		ConsoleAppender consoleAppender = new ConsoleAppender();
+        consoleAppender.setThreshold(Level.INFO);
+        consoleAppender.setLayout(new PatternLayout("%d{DATE} | Reimbursement Applied For By Employee with ID: " + id + "\n"));
+        consoleAppender.activateOptions();
+        LogManager.getRootLogger().addAppender(consoleAppender);
+
+        logger.debug("Hello this is a debug message");
+        logger.info("%d{DATE} | Reimbursement Applied For By Employee with ID: " + id + "\n");
 		
 		request.getRequestDispatcher("navbar.html").include(request, response);	
 

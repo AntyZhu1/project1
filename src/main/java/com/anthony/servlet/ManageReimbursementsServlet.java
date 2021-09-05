@@ -11,6 +11,11 @@ import java.util.List;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 
+import org.apache.log4j.FileAppender;
+import org.apache.log4j.Level;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PatternLayout;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -23,6 +28,8 @@ import jakarta.servlet.http.HttpServletResponse;
 
 public class ManageReimbursementsServlet extends HttpServlet{
 
+	private static final Logger logger = LogManager.getLogger(ManageReimbursementsServlet.class);
+
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html");
@@ -32,6 +39,16 @@ public class ManageReimbursementsServlet extends HttpServlet{
 		
 		ManagerDAO manDao = ManagerDAOFactory.getManagerDao();
 		
+		FileAppender f = new FileAppender();
+        f.setName("Interaction Log");
+        f.setFile("interaction.log");
+        f.setThreshold(Level.INFO);
+
+        f.setLayout(new PatternLayout("%d{DATE} | Managing Reimbursement Requests" + "\n"));
+        f.setAppend(true);
+        f.activateOptions();
+        LogManager.getRootLogger().addAppender(f);
+        logger.info("%d{DATE} | Managing Reimbursement Requests" + "\n");
      		
 		out.println("<script>");
 		

@@ -22,9 +22,34 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
+import org.apache.log4j.*;
+
 public class LoginServlet extends HttpServlet{
 	
+	private static final Logger logger = LogManager.getLogger(LoginServlet.class);
+	
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+		
+//		FileAppender f = new FileAppender();
+//        f.setName("Interaction Log");
+//        f.setFile("interaction.log");
+//        f.setThreshold(Level.INFO);
+//
+//        f.setLayout(new PatternLayout("%d{DATE} | Session Started " + "\n"));
+//        f.setAppend(true);
+//        f.activateOptions();
+//        LogManager.getRootLogger().addAppender(f);
+//        logger.info("%d{DATE} | Session Started "+ "\n");
+		
+		ConsoleAppender consoleAppender = new ConsoleAppender();
+        consoleAppender.setThreshold(Level.INFO);
+        consoleAppender.setLayout(new PatternLayout("%d{DATE} | Logging In " + "\n"));
+        consoleAppender.activateOptions();
+        LogManager.getRootLogger().addAppender(consoleAppender);
+
+        logger.debug("Hello this is a debug message");
+        logger.info("%d{DATE} | Logging In " + "\n");
+		
 		
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
@@ -41,10 +66,18 @@ public class LoginServlet extends HttpServlet{
 		
 		
 		if(username != null && password != null) {
-
+			
 			
 			if (role.equals("Employee")) {
-
+				
+//	            f.setLayout(new PatternLayout("%d{DATE} | Logged in as" + username + "\n"));
+//	            f.setAppend(true);
+//	            f.activateOptions();
+//	            LogManager.getRootLogger().addAppender(f);
+//	            logger.info("%d{DATE} | Logged in as" + username + "\n");
+				
+		        logger.debug("%d{DATE} | Logged in as" + username + "\n");
+		        logger.info("%d{DATE} | Logged in as" + username + "\n");
 				
 				int id = Integer.parseInt(id_string);
 				
@@ -90,6 +123,15 @@ public class LoginServlet extends HttpServlet{
 			else if (role.equals("Manager")) {
 				
 				int id = Integer.parseInt(id_string);
+				
+//	            f.setLayout(new PatternLayout("%d{DATE} | Logged in as" + username + "\n"));
+//	            f.setAppend(true);
+//	            f.activateOptions();
+//	            LogManager.getRootLogger().addAppender(f);
+//	            logger.info("%d{DATE} | Logged in as" + username + "\n");
+				
+		        logger.debug("%d{DATE} | Logged in as" + username + "\n");
+		        logger.info("%d{DATE} | Logged in as" + username + "\n");
 				
 				Manager tempMan = manDao.mangerLogin(id, username, password);
 				
