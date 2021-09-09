@@ -11,6 +11,7 @@ import java.util.List;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 
+import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.FileAppender;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
@@ -39,16 +40,14 @@ public class ManageReimbursementsServlet extends HttpServlet{
 		
 		ManagerDAO manDao = ManagerDAOFactory.getManagerDao();
 		
-		FileAppender f = new FileAppender();
-        f.setName("Interaction Log");
-        f.setFile("interaction.log");
-        f.setThreshold(Level.INFO);
+		ConsoleAppender consoleAppender = new ConsoleAppender();
+        consoleAppender.setThreshold(Level.INFO);
+        consoleAppender.setLayout(new PatternLayout("%d{DATE} | Managing Reimbursements " + "\n"));
+        consoleAppender.activateOptions();
+        LogManager.getRootLogger().addAppender(consoleAppender);
 
-        f.setLayout(new PatternLayout("%d{DATE} | Managing Reimbursement Requests" + "\n"));
-        f.setAppend(true);
-        f.activateOptions();
-        LogManager.getRootLogger().addAppender(f);
-        logger.info("%d{DATE} | Managing Reimbursement Requests" + "\n");
+        logger.debug("Hello this is a debug message");
+        logger.info("%d{DATE} | Managing Reimbursements " + "\n");
      		
 		out.println("<script>");
 		
@@ -149,31 +148,9 @@ public class ManageReimbursementsServlet extends HttpServlet{
 			out.print("<td>" + description + "</td>");
 			out.print("<td>" + status + "</td>");
 			
-			if(status.equals("Pending")) {
-				out.println("<td>");
-				
-				out.println("<form method = \"post\" action = \"approve_reimbursement\">");
-				
-				out.println("<button type=\"submit\" class=\"btn btn-outline-secondary\" onclick='sendId(" + reId + ")'>Approve</button>");
-				
-				out.print("<input type='hidden' name='send-id' value='' id='send-id'>");
 
-				out.println("</form>");
-				
-				out.println("<form method = \"post\" action = \"deny_reimbursement\">");
+			out.print("<td>" + temp.getPast_approve_status() + "</td>");
 
-				out.println("<button type=\"submit\" class=\"btn btn-outline-secondary\" onclick='sendId(" + reId + ")'>Deny</button>");
-
-				out.print("<input type='hidden' name='send-id' value='' id='send-id'>");
-
-				out.println("</form>");
-
-				out.println("</td>");
-
-			}
-			else {
-				out.print("<td>" + temp.getPast_approve_status() + "</td>");
-			}
 				
 
 			out.print("</tr>");
@@ -186,11 +163,34 @@ public class ManageReimbursementsServlet extends HttpServlet{
 
 		out.print("</tbody>");
 		out.print("</table>");
+		out.println("<td>");
+		
+		out.println("<form method = \"post\" action = \"approve_reimbursement\">\r\n");
+		
+		out.println("<input type=\"number\" id=\"emp_id\" class=\"form-control form-control-lg\" name =\"re_id\"/>\r\n"
+				+ "<label class=\"form-label\" for=\"emp_id\">Reimbursement ID:</label>");
+		
+		out.print("<button class=\"btn btn-primary btn-lg btn-block\" type=\"submit\">Approve</button>\r\n");
+		
+		out.println("</form>");
+		
+		
+		out.println("<form method = \"post\" action = \"deny_reimbursement\">\r\n");
+		
+		out.println("<input type=\"number\" id=\"emp_id\" class=\"form-control form-control-lg\" name =\"re_id\"/>\r\n"
+				+ "<label class=\"form-label\" for=\"emp_id\">Reimbursement ID:</label>");
+		
+		out.print("<button class=\"btn btn-primary btn-lg btn-block\" type=\"submit\">Deny</button>\r\n");
+		
+		out.println("</form>");
+
+		out.println("</td>");
+		
 		out.print("</div>");	
 
 
 		
-		
+		out.close();
 		
 
 		

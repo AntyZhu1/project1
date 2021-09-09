@@ -43,12 +43,12 @@ public class LoginServlet extends HttpServlet{
 		
 		ConsoleAppender consoleAppender = new ConsoleAppender();
         consoleAppender.setThreshold(Level.INFO);
-        consoleAppender.setLayout(new PatternLayout("%d{DATE} | Logging In " + "\n"));
+        consoleAppender.setLayout(new PatternLayout("%d{DATE} | Logging In ... " + "\n"));
         consoleAppender.activateOptions();
         LogManager.getRootLogger().addAppender(consoleAppender);
 
         logger.debug("Hello this is a debug message");
-        logger.info("%d{DATE} | Logging In " + "\n");
+        logger.info("%d{DATE} | Session is running " + "\n");
 		
 		
 		response.setContentType("text/html");

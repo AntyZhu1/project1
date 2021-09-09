@@ -37,22 +37,43 @@ public class DenyServlet extends HttpServlet{
 
 		List<PastReimbursement> pastTransactions = manDao.viewPastReimbursements();
 		
-		String id_string = request.getParameter("send-id");
+		String id_string = request.getParameter("re_id");
+
 		
 		int id = Integer.parseInt(id_string);
 
-		manDao.denyReimbursement(id);
 		
-		ConsoleAppender consoleAppender = new ConsoleAppender();
-        consoleAppender.setThreshold(Level.INFO);
-        consoleAppender.setLayout(new PatternLayout("%d{DATE} | Reimbursement Denied " + "\n"));
-        consoleAppender.activateOptions();
-        LogManager.getRootLogger().addAppender(consoleAppender);
+		
+		try {
+			for (PastReimbursement temp : pastTransactions) {
+				if (temp.getPast_re_id() == id && temp.getPast_approve_status().equals("Pending")) {
+					manDao.denyReimbursement(id);
+					ConsoleAppender consoleAppender = new ConsoleAppender();
+			        consoleAppender.setThreshold(Level.INFO);
+			        consoleAppender.setLayout(new PatternLayout("%d{DATE} | Reimbursement Denied " + "\n"));
+			        consoleAppender.activateOptions();
+			        LogManager.getRootLogger().addAppender(consoleAppender);
 
-        logger.debug("Hello this is a debug message");
-        logger.info("%d{DATE} | Reimbursement Denied " + "\n");
-		
+
+			        logger.debug("Hello this is a debug message");
+			        logger.info("%d{DATE} | Reimbursement Denied " + "\n");
+				}
+				else if (temp.getPast_re_id() == id && !temp.getPast_approve_status().equals("Pending")) {
+					out.print("<h1>Error, Status finalized already</h1>");
+
+				}
+
+			}
+		}
+		catch (Exception e) {
+			out.print("<h1>Error, invalid ID</h1>");
+
+		}
 		response.sendRedirect("manage_reimbursements");
+
+		
+		out.close();
+		
 
 	}
 }
